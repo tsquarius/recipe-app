@@ -1,3 +1,4 @@
+const models = require("./server/models");
 const express = require("express");
 const app = require("./server/server");
 

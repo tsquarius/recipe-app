@@ -2,18 +2,23 @@ const graphql = require("graphql");
 const {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLInt,
+  GraphQLID,
   GraphQLList,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLInputObjectType,
+  GraphQLInt
 } = graphql;
 const mongoose = require("mongoose");
 
+//Models and Types
 const User = mongoose.model("users");
 const UserType = require("./types/user_type");
-
 const Recipe = mongoose.model("recipes");
 const RecipeType = require("./types/recipe_type");
 const RatingType = require("./types/rating_type");
+
+// for User Auth services (login/logout/register)
+const AuthService = require("../services/auth");
 
 const mutation = new GraphQLObjectType({
   name: "Mutation",
@@ -77,6 +82,72 @@ const mutation = new GraphQLObjectType({
       },
       resolve(_, { id }) {
         return Recipe.remove({ _id: id });
+      }
+    },
+
+    rateRecipe: {
+      type: RecipeType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        user: { type: GraphQLString },
+        rating: { type: GraphQLInt }
+      },
+      resolve(_, { id, user, rating }) {
+        return Recipe.updateRating(id, user, rating);
+      }
+    },
+
+    removeRating: {
+      type: RecipeType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        user: { type: GraphQLString }
+      },
+      resolve(_, { id, user }) {
+        return Recipe.removeRating(id, user);
+      }
+    },
+
+    register: {
+      type: UserType,
+      args: {
+        username: { type: GraphQLString },
+        email: { type: GraphQLString },
+        password: { type: GraphQLString }
+      },
+      resolve(_, args) {
+        return AuthService.register(args);
+      }
+    },
+
+    login: {
+      type: UserType,
+      args: {
+        email: { type: GraphQLString },
+        password: { type: GraphQLString }
+      },
+      resolve(_, args) {
+        return AuthService.login(args);
+      }
+    },
+
+    logout: {
+      type: UserType,
+      args: {
+        _id: { type: GraphQLID }
+      },
+      resolve(_, args) {
+        return AuthService.logout(args);
+      }
+    },
+
+    verifyUser: {
+      type: UserType,
+      args: {
+        token: { type: GraphQLString }
+      },
+      resolve(_, args) {
+        return AuthService.verifyUser(args);
       }
     }
   }

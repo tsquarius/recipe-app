@@ -5,7 +5,6 @@ const {
   GraphQLID,
   GraphQLList,
   GraphQLNonNull,
-  GraphQLInputObjectType,
   GraphQLInt
 } = graphql;
 const mongoose = require("mongoose");

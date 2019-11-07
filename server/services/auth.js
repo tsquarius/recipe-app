@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const keys = require("../../config/keys");
+const uuid = require("uuid/v4");
 
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
@@ -94,4 +95,39 @@ const verifyUser = async data => {
   }
 };
 
-module.exports = { register, logout, login, verifyUser };
+const facebookAuth = async data => {
+  try {
+    const { facebookId, username, email } = data;
+    const user = await User.findOne({ facebookId });
+
+    //check if the user has logged in before
+    // if not, create a new account
+    let token;
+    if (!user) {
+      const password = uuid();
+      const newUser = new User(
+        {
+          username,
+          email,
+          facebookId,
+          password
+        },
+        err => {
+          if (err) throw err;
+        }
+      );
+
+      newUser.save();
+
+      token = jwt.sign({ id: newUser._id }, keys.secretOrKey);
+      return { token, loggedIn: true, ...newUser._doc, password: null };
+    } else {
+      token = jwt.sign({ id: user._id }, keys.secretOrKey);
+      return { token, loggedIn: true, ...user._doc, password: null };
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports = { register, logout, login, verifyUser, facebookAuth };

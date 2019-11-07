@@ -7,6 +7,7 @@ const expressGraphQL = require("express-graphql");
 const schema = require("./schema/schema");
 const cors = require("cors"); // allows us to communicate between our two servers
 
+
 if (!db) {
   throw new Error("Please provide a string to connect to MongoDB Atlas");
 }

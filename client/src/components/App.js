@@ -7,6 +7,7 @@ import Nav from "./Nav";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 
+
 const App = () => {
   return (
     <div>

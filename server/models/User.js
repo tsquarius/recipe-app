@@ -16,6 +16,10 @@ const UserSchema = new Schema({
     min: 8,
     max: 32
   },
+  facebookId: {
+    type: String,
+    required: false
+  },
   date: {
     type: Date,
     default: Date.now

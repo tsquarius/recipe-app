@@ -2,6 +2,7 @@ import React from "react";
 import { Query, ApolloConsumer } from "react-apollo";
 import { Link, withRouter } from "react-router-dom";
 import { IS_LOGGED_IN } from "../graphql/queries";
+import FacebookAuth from './auth/fbAuth';
 
 const Nav = props => {
 
@@ -29,6 +30,7 @@ const Nav = props => {
                 <div>
                   <Link to="/login">Login</Link>
                   <Link to="/register">Register</Link>
+                  <FacebookAuth />
                 </div>
               );
             }

@@ -140,6 +140,18 @@ const mutation = new GraphQLObjectType({
       }
     },
 
+    facebookAuth: {
+      type: UserType,
+      args: {
+        username: {type: GraphQLString},
+        email: {type: GraphQLString},
+        facebookId: {type: GraphQLString}
+      },
+      resolve(_, args) {
+        return AuthService.facebookAuth(args);
+      }
+    },
+
     verifyUser: {
       type: UserType,
       args: {

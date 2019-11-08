@@ -35,3 +35,22 @@ export const FETCH_RECIPES_PAGINATED = gql`
     }
   }
 `;
+
+export const SEARCH_BY_INGREDIENTS = gql`
+  query SearchByIngredients($ingredients: [String], $offset: Int, $limit: Int) {
+    ingredientSearch(
+      ingredients: $ingredients
+      offset: $offset
+      limit: $limit
+    ) {
+      _id
+      name
+      image
+      rating {
+        user
+        rating
+      }
+      author
+    }
+  }
+`;

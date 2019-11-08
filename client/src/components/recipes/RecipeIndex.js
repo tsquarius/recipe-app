@@ -1,49 +1,44 @@
 import React from "react";
+import { Query } from "react-apollo";
+import { FETCH_RECIPES_PAGINATED } from "../../graphql/queries";
+import RecipeGridDisplay from "./RecipeGridDisplay";
 
-const RecipeIndex = props => {
-  const { recipes, loadMore } = props;
+const Scroll = props => {
 
-  const indexGrid = () => {
-    const rows = [];
-    recipes.forEach((recipe, idx) => {
-      let rowNum = Math.floor(idx/4);
-      if (rows[rowNum]) {
-        rows[rowNum].push(recipe);
-       } else {
-         rows[rowNum] = [recipe];
-       }
-    });
+  return (
+    <Query
+      query={FETCH_RECIPES_PAGINATED}
+      variables={{ limit: 8 }}
+      // fetchPolicy="cache-and-network"
+    >
+      {({ loading, error, data, fetchMore }) => {
+        if (loading) return <p>Loading...</p>;
+        if (error) return <p>Error occurred...</p>;
 
-    return rows.map((row,idx) => 
-      <div className="grid-row" key={idx}>
-        {row.map(recipe => (
-          <section className="grid-col" key={recipe._id}>
-            <h3>{recipe.name}</h3>
-            {/* <div className="img-card">
-              <img src={recipe.image} className="img" />
-            </div> */}
-            <span className="rating">Ratings</span>
-            <span className="author">{recipe.author}</span>
-          </section>
-        ))}
-      </div>
-    )
-  };
-
-  return [
-    indexGrid(),
-    <aside key="loader" className="bottom-row">
-      <button
-        onClick={e => {
-          e.preventDefault();
-          let newCursor = recipes[recipes.length - 1]._id;
-          loadMore(newCursor);
-        }}
-      >
-        load more
-      </button>
-    </aside>
-  ];
+        return (
+          <RecipeGridDisplay
+            recipes={data.recipesPaginated}
+            loadMore={(newCursor) =>
+              fetchMore({
+                query: FETCH_RECIPES_PAGINATED,
+                variables: {
+                  limit: 8,
+                  cursor: newCursor
+                },
+                updateQuery: (prev, { fetchMoreResult }) => {
+                  const prevRecipes = prev.recipesPaginated;
+                  const newRecipes = fetchMoreResult.recipesPaginated;
+                  return {
+                    recipesPaginated: [...prevRecipes, ...newRecipes]
+                  };
+                }
+              })
+            }
+          />
+        );
+      }}
+    </Query>
+  );
 };
 
-export default RecipeIndex;
+export default Scroll;

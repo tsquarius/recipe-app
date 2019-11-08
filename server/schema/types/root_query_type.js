@@ -6,6 +6,7 @@ const {
   GraphQLID,
   GraphQLNonNull,
   GraphQLInt,
+  GraphQLString
 } = graphql;
 
 const UserType = require("./user_type");
@@ -61,6 +62,23 @@ const RootQueryType = new GraphQLObjectType({
         } else {
           return Recipe.find({ _id: { $gt: cursor } }).limit(limit);
         }
+      }
+    },
+
+    ingredientSearch: {
+      type: new GraphQLList(RecipeType),
+      args: {
+        ingredients: { type: new GraphQLList(GraphQLString) },
+        offset: {type: GraphQLInt},
+        limit: {type: GraphQLInt}
+      },
+      resolve(_, { ingredients, offset, limit }) {
+
+        let ingredientsRegex = ingredients.join("|.*");
+
+        return Recipe.find({
+          ingredients: { $regex: ".*" + ingredientsRegex + ".*", $options: "i" }
+        }).skip(offset ? offset : "").limit(limit ? limit : "");
       }
     }
   })

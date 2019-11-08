@@ -6,7 +6,8 @@ import AuthRoute from "../utils/route_util";
 import Nav from "./Nav";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
-import RecipeIndex from "./recipes/Scroll";
+import RecipeIndex from "./recipes/RecipeIndex";
+import RecipeSearch from "./search/RecipeSearch";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       </nav>
 
       <Switch>
+        <Route component={RecipeSearch} exact path="/search/:params" />
         <Route component={RecipeIndex} exact path="/recipes" />
         <AuthRoute
           component={Login}

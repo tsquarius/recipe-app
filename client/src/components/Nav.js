@@ -2,10 +2,11 @@ import React from "react";
 import { Query, ApolloConsumer } from "react-apollo";
 import { Link, withRouter } from "react-router-dom";
 import { IS_LOGGED_IN } from "../graphql/queries";
-import FacebookAuth from './auth/fbAuth';
+import FacebookAuth from "./auth/fbAuth";
+
+import SearchBar from "./search/SearchBar";
 
 const Nav = props => {
-
   const logoutUser = (e, client) => {
     e.preventDefault();
     localStorage.removeItem("auth-token");
@@ -22,9 +23,10 @@ const Nav = props => {
             if (error) return <h1>Error</h1>;
 
             if (data.isLoggedIn) {
-              return (
-                <button onClick={e => logoutUser(e, client)}>Logout</button>
-              );
+              return [
+                <button key="userNav" onClick={e => logoutUser(e, client)}>Logout</button>,
+                <SearchBar key="search" />
+              ];
             } else {
               return (
                 <div>

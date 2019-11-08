@@ -69,18 +69,42 @@ const RootQueryType = new GraphQLObjectType({
       type: new GraphQLList(RecipeType),
       args: {
         ingredients: { type: new GraphQLList(GraphQLString) },
-        offset: {type: GraphQLInt},
-        limit: {type: GraphQLInt}
+        offset: { type: GraphQLInt },
+        limit: { type: GraphQLInt },
+        method: {
+          type: GraphQLString,
+          description: "Search for 'any' matching ingredients or 'all'"
+        }
       },
-      resolve(_, { ingredients, offset, limit }) {
+      resolve(_, { ingredients, offset, limit, method }) {
+        let ingredientsRegex;
 
-        let ingredientsRegex = ingredients.join("|.*");
+        if (method === "any") {
+          ingredientsRegex = ingredients.join("|.*");
 
-        return Recipe.find({
-          ingredients: { $regex: ".*" + ingredientsRegex + ".*", $options: "i" }
-        }).skip(offset ? offset : "").limit(limit ? limit : "");
+          return Recipe.find({
+            ingredients: {
+              $regex: ".*" + ingredientsRegex + ".*",
+              $options: "i"
+            }
+          })
+            .skip(offset ? offset : "")
+            .limit(limit ? limit : "");
+        } else {
+          ingredientsRegex = ingredients.map(ingredient => {
+            return {
+              ingredients: { $regex: ".*" + ingredient + ".*", $options: "i" }
+            };
+          });
+          return Recipe.find({
+            $and: ingredientsRegex
+          })
+            .skip(offset ? offset : "")
+            .limit(limit ? limit : "");
+        }
       }
     }
+
   })
 });
 

@@ -20,7 +20,7 @@ const App = () => {
       </nav>
 
       <Switch>
-        <Route component={RecipeSearch} exact path="/search/:params" />
+        <Route component={RecipeSearch} exact path="/search/" />
         <Route component={RecipeIndex} exact path="/recipes" />
         <AuthRoute
           component={Login}

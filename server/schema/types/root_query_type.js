@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLList,
+  GraphQLID,
+  GraphQLNonNull,
+  GraphQLInt,
+} = graphql;
 
 const UserType = require("./user_type");
 const User = mongoose.model("users");
@@ -20,7 +26,7 @@ const RootQueryType = new GraphQLObjectType({
 
     user: {
       type: UserType,
-      args: {_id: {type: new GraphQLNonNull(GraphQLID)}},
+      args: { _id: { type: new GraphQLNonNull(GraphQLID) } },
       resolve(_, args) {
         return User.findById(args._id);
       }
@@ -29,19 +35,34 @@ const RootQueryType = new GraphQLObjectType({
     recipes: {
       type: new GraphQLList(RecipeType),
       resolve() {
-        return Recipe.find({});
+        return Recipe.find({ _id: { $gt: "5dc0ccb96a6ea150fc54a980" } }).limit(
+          8
+        );
       }
     },
 
     recipe: {
       type: RecipeType,
-      args: {_id: {type: new GraphQLNonNull(GraphQLID)}},
+      args: { _id: { type: new GraphQLNonNull(GraphQLID) } },
       resolve(_, args) {
         return Recipe.findById(args._id);
       }
+    },
+
+    recipesPaginated: {
+      type: new GraphQLList(RecipeType),
+      args: {
+        cursor: { type: GraphQLID },
+        limit: { type: GraphQLInt }
+      },
+      resolve(_, { cursor, limit }) {
+        if (!cursor) {
+          return Recipe.find().limit(limit);
+        } else {
+          return Recipe.find({ _id: { $gt: cursor } }).limit(limit);
+        }
+      }
     }
-
-
   })
 });
 

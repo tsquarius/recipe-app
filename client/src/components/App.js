@@ -6,14 +6,20 @@ import AuthRoute from "../utils/route_util";
 import Nav from "./Nav";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
-
+import RecipeIndex from "./recipes/Scroll";
 
 const App = () => {
   return (
-    <div>
-      <h1>Recipe App</h1>
-      <Nav />
+    <div id="app">
+      <header className="main-head">
+        <h1>Recipe App</h1>
+      </header>
+      <nav className="main-nav">
+        <Nav />
+      </nav>
+
       <Switch>
+        <Route component={RecipeIndex} exact path="/recipes" />
         <AuthRoute
           component={Login}
           path="/login"
@@ -27,6 +33,11 @@ const App = () => {
           routeType="auth"
         />
       </Switch>
+      <footer className="main-footer">
+        Project by Toan Tran <br />
+        Github <br />
+        linkedin
+      </footer>
     </div>
   );
 };

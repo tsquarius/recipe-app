@@ -47,7 +47,7 @@ const Register = props => {
       update={(client, { data }) => updateCache(client, data)}
     >
       {register => (
-        <div>
+        <div className="main-content-row">
           <h1>Register</h1>
           <form onSubmit={e => handleSubmit(e, register)}>
             <input

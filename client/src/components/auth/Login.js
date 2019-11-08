@@ -26,7 +26,7 @@ const Login = props => {
 
   const updateCache = (client, data) => {
     client.writeData({
-      data: { isLoggedIn: data.login.loggedIn}
+      data: { isLoggedIn: data.login.loggedIn }
     });
   };
 
@@ -38,12 +38,12 @@ const Login = props => {
         localStorage.setItem("auth-token", token);
         props.history.push("/");
       }}
-      update={(client, {data}) => {
+      update={(client, { data }) => {
         updateCache(client, data);
       }}
     >
       {loginUser => (
-        <div>
+        <div className="main-content-row">
           <h1>Log In</h1>
           <form onSubmit={e => handleSubmit(e, loginUser)}>
             <input

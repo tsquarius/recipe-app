@@ -46,11 +46,22 @@ const RecipeSchema = new Schema({
   ],
   viewCount: {
     type: Number,
-    required: false
+    required: false,
+    default: 0
   },
   date: {
     type: Date,
     default: Date.now
+  },
+  averageRate: {
+    type: Number,
+    default: function() {
+      const reducer = (acc, cv) => {return acc + cv;};
+      const rates = this.rating.map(rater => 
+        rater.rating
+      );
+      return rates.reduce(reducer)/rates.length;      
+    }
   }
 });
 
@@ -77,6 +88,14 @@ RecipeSchema.statics.removeRating = (id, user) => {
         recipe.rating.pull(rater);
       }
     });
+    return recipe.save();
+  });
+};
+
+RecipeSchema.statics.addViewCount = id => {
+  const Recipe = mongoose.model("recipes");
+  return Recipe.findById(id).then(recipe => {
+    recipe.viewCount += 1;
     return recipe.save();
   });
 };

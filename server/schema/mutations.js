@@ -160,6 +160,16 @@ const mutation = new GraphQLObjectType({
       resolve(_, args) {
         return AuthService.verifyUser(args);
       }
+    },
+
+    increaseViewCount: {
+      type: RecipeType,
+      args: {
+        _id: {type: GraphQLID}
+      },
+      resolve(_, {_id}) {
+        return Recipe.addViewCount(_id);
+      }
     }
   }
 });

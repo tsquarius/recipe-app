@@ -8,6 +8,7 @@ const {
   GraphQLList,
   GraphQLFloat
 } = graphql;
+
 const Recipe = mongoose.model("recipes");
 const RatingType = require("./rating_type");
 
@@ -24,7 +25,8 @@ const RecipeType = new GraphQLObjectType({
     author: { type: GraphQLString },
     ingredients: { type: new GraphQLList(GraphQLString) },
     steps: { type: new GraphQLList(GraphQLString) },
-    viewCount: { type: GraphQLInt }
+    viewCount: { type: GraphQLInt },
+    averageRate: {type: GraphQLFloat}
   })
 });
 

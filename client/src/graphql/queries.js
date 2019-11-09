@@ -27,10 +27,7 @@ export const FETCH_RECIPES_PAGINATED = gql`
       _id
       name
       image
-      rating {
-        user
-        rating
-      }
+      averageRate
       author
     }
   }
@@ -46,10 +43,7 @@ export const SEARCH_BY_INGREDIENTS = gql`
       _id
       name
       image
-      rating {
-        user
-        rating
-      }
+      averageRate
       author
     }
   }

@@ -7,8 +7,10 @@ const RecipeGridItem = ({ recipe }) => {
       {/* <div className="img-card">
               <img src={recipe.image} className="img" />
             </div> */}
-      <span className="rating">Ratings</span>
-      <span className="author">{recipe.author}</span>
+      <span className="rating">Rated: 
+        {Math.round(recipe.averageRate * 100) / 100}
+      </span>
+      <span className="author">Recipe by: {recipe.author}</span>
     </section>
   );
 };

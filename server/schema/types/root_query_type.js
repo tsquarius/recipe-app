@@ -36,9 +36,7 @@ const RootQueryType = new GraphQLObjectType({
     recipes: {
       type: new GraphQLList(RecipeType),
       resolve() {
-        return Recipe.find({ _id: { $gt: "5dc0ccb96a6ea150fc54a980" } }).limit(
-          8
-        );
+        return Recipe.find({});
       }
     },
 

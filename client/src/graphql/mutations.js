@@ -47,3 +47,12 @@ export const VERIFY_USER = gql`
     }
   }
 `;
+
+export const INCREASE_VIEW_COUNT = gql`
+  mutation IncreaseViewCount($id: ID!) {
+    increaseViewCout(_id: $id) {
+      _id
+      viewCount
+    }
+  }
+`;

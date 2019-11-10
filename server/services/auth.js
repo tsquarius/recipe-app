@@ -95,6 +95,22 @@ const verifyUser = async data => {
   }
 };
 
+const currentUser = async data => {
+  try {
+    const { token } = data;
+    const decoded = jwt.verify(token, keys.secretOrKey);
+    const { id } = decoded;
+    const user = await User.findById(id);
+    if (!user) {
+      throw new Error("You must be logged in to proceed");
+    }
+
+    return {username: user.username, _id: user._id};
+  } catch (err) {
+    throw err;
+  }
+};
+
 const facebookAuth = async data => {
   try {
     const { facebookId, username, email } = data;
@@ -130,4 +146,11 @@ const facebookAuth = async data => {
   }
 };
 
-module.exports = { register, logout, login, verifyUser, facebookAuth };
+module.exports = {
+  register,
+  logout,
+  login,
+  verifyUser,
+  currentUser,
+  facebookAuth
+};

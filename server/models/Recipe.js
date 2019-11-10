@@ -60,6 +60,7 @@ const RecipeSchema = new Schema({
       const rates = this.rating.map(rater => 
         rater.rating
       );
+      if (rates.length === 0) return;
       return rates.reduce(reducer)/rates.length;      
     }
   }

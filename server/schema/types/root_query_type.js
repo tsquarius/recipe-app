@@ -48,6 +48,13 @@ const RootQueryType = new GraphQLObjectType({
       }
     },
 
+    newestRecipe: {
+      type: new GraphQLList(RecipeType),
+      resolve(_) {
+        return Recipe.find({}).sort({date: -1}).limit(4);
+      }
+    },
+
     recipesPaginated: {
       type: new GraphQLList(RecipeType),
       args: {

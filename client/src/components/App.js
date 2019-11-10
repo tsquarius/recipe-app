@@ -8,6 +8,8 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import RecipeIndex from "./recipes/RecipeIndex";
 import RecipeSearch from "./search/RecipeSearch";
+import RecipeDetails from './recipes/RecipeDetails';
+import NewRecipe from './recipes/RecipeForm';
 
 const App = () => {
   return (
@@ -20,6 +22,8 @@ const App = () => {
       </nav>
 
       <Switch>
+        <Route component={NewRecipe} exact path="/recipes/new" />
+        <Route component={RecipeDetails} exact path="/recipes/:recipeId" />
         <Route component={RecipeSearch} exact path="/search/" />
         <Route component={RecipeIndex} exact path="/recipes" />
         <AuthRoute

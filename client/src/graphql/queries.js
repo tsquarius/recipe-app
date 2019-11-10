@@ -48,3 +48,18 @@ export const SEARCH_BY_INGREDIENTS = gql`
     }
   }
 `;
+
+export const FETCH_RECIPE = gql`
+  query FetchRecipe($id: ID!) {
+    recipe(_id: $id) {
+      _id
+      name
+      image
+      averageRate
+      author
+      ingredients
+      steps
+      viewCount
+    }
+  }
+`;

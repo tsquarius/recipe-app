@@ -27,21 +27,41 @@ const mutation = new GraphQLObjectType({
       args: {
         name: { type: GraphQLString },
         description: { type: GraphQLString },
-        author: { type: GraphQLString },
         ingredients: { type: new GraphQLList(GraphQLString) },
         steps: { type: new GraphQLList(GraphQLString) },
         image: { type: GraphQLString }
       },
-      resolve(_, { name, description, author, ingredients, steps, image }) {
-        // reminder to update to use Current user as author
+      async resolve(
+        _,
+        { name, description, ingredients, steps, image },
+        context
+      ) {
+        const currentUser = await AuthService.currentUser({
+          token: context.token
+        });
+
+        // ensure the user is signed in before we move on
+
+        if (!currentUser) return;
+
+        // create new recipe and then add it to the
+        //User's list of recipes submitted
         return new Recipe({
           name,
           description,
-          author,
+          author: currentUser.username,
           ingredients,
           steps,
           image
-        }).save();
+        })
+          .save()
+          .then(recipe => {
+            User.findById(currentUser._id).then(user => {
+              user.recipes.push(recipe);
+              user.save();
+            });
+            return recipe;
+          });
       }
     },
 
@@ -143,9 +163,9 @@ const mutation = new GraphQLObjectType({
     facebookAuth: {
       type: UserType,
       args: {
-        username: {type: GraphQLString},
-        email: {type: GraphQLString},
-        facebookId: {type: GraphQLString}
+        username: { type: GraphQLString },
+        email: { type: GraphQLString },
+        facebookId: { type: GraphQLString }
       },
       resolve(_, args) {
         return AuthService.facebookAuth(args);
@@ -165,9 +185,9 @@ const mutation = new GraphQLObjectType({
     increaseViewCount: {
       type: RecipeType,
       args: {
-        _id: {type: GraphQLID}
+        _id: { type: GraphQLID }
       },
-      resolve(_, {_id}) {
+      resolve(_, { _id }) {
         return Recipe.addViewCount(_id);
       }
     }

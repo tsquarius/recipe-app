@@ -1,13 +1,17 @@
 import gql from "graphql-tag";
 
 export const FACEBOOK_AUTH = gql`
-  mutation FacebookAuth($email: String!, $username: String!, $facebookId: String!) {
+  mutation FacebookAuth(
+    $email: String!
+    $username: String!
+    $facebookId: String!
+  ) {
     facebookAuth(email: $email, username: $username, facebookId: $facebookId) {
       token
       loggedIn
     }
   }
-`
+`;
 
 export const LOGIN_USER = gql`
   mutation LoginUser($email: String!, $password: String!) {
@@ -53,6 +57,32 @@ export const INCREASE_VIEW_COUNT = gql`
     increaseViewCout(_id: $id) {
       _id
       viewCount
+    }
+  }
+`;
+
+export const SUBMIT_NEW_RECIPE = gql`
+  mutation SubmitNewRecipe(
+    $name: String!
+    $description: String
+    $ingredients: [String]
+    $steps: [String]
+    $image: String
+  ) {
+    newRecipe(
+      name: $name
+      description: $description
+      ingredients: $ingredients
+      steps: $steps
+      image: $image
+    ) {
+      _id
+      name
+      description
+      image
+      steps
+      ingredients
+      author
     }
   }
 `;

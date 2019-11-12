@@ -1,12 +1,18 @@
 html, body, div, span, a, ol, ul, li, form, label, 
 article, aside, figure, figcaption, footer, header, 
-nav , aside, main {
+nav , aside, main, p, form{
   margin: 0;
   padding: 0;
   border: 0;
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 body {
@@ -19,6 +25,11 @@ ol, ul {
 
 a {
   text-decoration: none;
+  color: inherit;
+}
+
+a:hover, button:hover {
+  cursor: pointer;
 }
 
 input[type="radio"], select, input[type="submit"] {

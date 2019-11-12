@@ -1,6 +1,30 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
 import { LOGIN_USER } from "../../graphql/mutations";
+import styled from "styled-components";
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 700px) {
+    width: 50%;
+    margin: auto;
+  }
+`;
+
+const Input = styled.input`
+  margin: auto;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  width: 80%;
+`;
+
+const Button = styled.button`
+  width: 40%;
+  margin: auto;
+`;
 
 const Login = props => {
   const [email, setEmail] = useState("");
@@ -36,29 +60,29 @@ const Login = props => {
       onCompleted={data => {
         const { token } = data.login;
         localStorage.setItem("auth-token", token);
-        props.history.push("/");
+        props.history.push("/recipes");
       }}
       update={(client, { data }) => {
         updateCache(client, data);
       }}
     >
       {loginUser => (
-        <div className="main-content-row">
+        <div className="main-content-section">
           <h1>Log In</h1>
-          <form onSubmit={e => handleSubmit(e, loginUser)}>
-            <input
+          <Form onSubmit={e => handleSubmit(e, loginUser)}>
+            <Input
               value={email}
               onChange={handleEmailInput}
               placeholder="email"
             />
-            <input
+            <Input
               value={password}
               onChange={handlePasswordInput}
               placeholder="password"
               type="password"
             />
-            <button type="submit">Login</button>
-          </form>
+            <Button type="submit">Login</Button>
+          </Form>
         </div>
       )}
     </Mutation>

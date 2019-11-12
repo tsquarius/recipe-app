@@ -4,6 +4,12 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 import { Mutation } from "react-apollo";
 import { FACEBOOK_AUTH } from "../../graphql/mutations";
 import { withRouter } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from 'styled-components';
+
+const FacebookButton = styled.button`
+  background: #3b5998;
+`;
 
 const fbAuth = props => {
   const responseFacebook = (response, facebookAuth) => {
@@ -29,7 +35,6 @@ const fbAuth = props => {
       onCompleted={data => {
         const { token } = data.facebookAuth;
         localStorage.setItem("auth-token", token);
-        props.history.push("/");
       }}
       update={(client, { data }) => {
         updateCache(client, data);
@@ -41,7 +46,12 @@ const fbAuth = props => {
           autoLoad={false}
           fields="id,name,email"
           render={renderProps => (
-            <button onClick={renderProps.onClick}>Login with Facebook</button>
+            <FacebookButton
+              title="login with facebook"
+              onClick={renderProps.onClick}
+            >
+              <FontAwesomeIcon icon={["fab", "facebook"]} />
+            </FacebookButton>
           )}
           callback={response => responseFacebook(response, facebookAuth)}
           icon="fa-facebook"

@@ -4,7 +4,6 @@ import { Link, withRouter } from "react-router-dom";
 import { IS_LOGGED_IN } from "../graphql/queries";
 import FacebookAuth from "./auth/fbAuth";
 import { Loading, ErrorMsg } from "./utils/HelperComponents";
-
 import SearchBar from "./search/SearchBar";
 
 const Nav = props => {
@@ -12,7 +11,7 @@ const Nav = props => {
     e.preventDefault();
     localStorage.removeItem("auth-token");
     client.writeData({ data: { isLoggedIn: false } });
-    window.location.reload();
+    if (window.FB) window.FB.logout();
   };
 
   return (
@@ -24,22 +23,35 @@ const Nav = props => {
             if (error) return <ErrorMsg />;
             if (data.isLoggedIn) {
               return [
-                <button key="userNav" onClick={e => logoutUser(e, client)}>
-                  Logout
-                </button>,
-                <SearchBar key="search" />,
-                <Link key="newRecipe" to="/recipes/new">
-                  Submit a recipe
-                </Link>
+                <nav key="search" className="main-nav">
+                  <SearchBar />
+                </nav>,
+                <nav key="submit" className="main-nav-left">
+                  <Link className="button" key="newRecipe" to="/recipes/new">
+                    Submit a recipe
+                  </Link>
+                </nav>,
+                <div key="userNav" className="main-nav-auth">
+                  <button title="logout" onClick={e => logoutUser(e, client)}>
+                    Logout
+                  </button>
+                </div>
               ];
             } else {
-              return (
-                <div>
-                  <Link to="/login">Login</Link>
-                  <Link to="/register">Register</Link>
+              return [
+                <nav key="search" className="main-nav out">
+                  <SearchBar />
+                </nav>,
+                <div key="auth" className="main-nav-auth">
+                  <Link title="login" className="button" to="/login">
+                    Login
+                  </Link>
+                  <Link title="register" className="button" to="/register">
+                    Register
+                  </Link>
                   <FacebookAuth />
                 </div>
-              );
+              ];
             }
           }}
         </Query>

@@ -55,14 +55,7 @@ const RecipeSchema = new Schema({
   },
   averageRate: {
     type: Number,
-    default: function() {
-      const reducer = (acc, cv) => {
-        return acc + cv;
-      };
-      const rates = this.rating.map(rater => rater.rating);
-      if (rates.length === 0) return;
-      return rates.reduce(reducer) / rates.length;
-    }
+    required: false
   },
   user: {
     type: Schema.Types.ObjectId,

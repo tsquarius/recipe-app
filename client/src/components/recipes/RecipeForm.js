@@ -1,6 +1,44 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
 import { SUBMIT_NEW_RECIPE } from "../../graphql/mutations";
+import styled from "styled-components";
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: auto;
+`;
+
+const Input = styled.input`
+  width: 70%;
+  margin: auto;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  padding: 10px;
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+`;
+
+const AddButton = styled.button`
+  width: 1.5em;
+  margin: auto;
+  border-radius: 50%;
+`;
+
+const SubmitButton = styled.button`
+  background: #eca2ff;
+  @media (min-width: 700px) {
+    width: 30%;
+    margin: auto;
+    font-size: 20px;
+  }
+`;
 
 const RecipeForm = props => {
   const [message, setMessage] = useState("");
@@ -28,7 +66,7 @@ const RecipeForm = props => {
   };
 
   const handleStepsChange = (e, id) => {
-    setSteps(Object.assign({}, ingredients, { [id]: e.target.value }));
+    setSteps(Object.assign({}, steps, { [id]: e.target.value }));
   };
 
   const handleSubmit = (e, newRecipe) => {
@@ -70,47 +108,59 @@ const RecipeForm = props => {
       }}
     >
       {(newRecipe, { data }) => (
-        <div className="main-content-row">
+        <div className="main-content-section">
           <h2>Submit a Recipe!</h2>
-          <form onSubmit={e => handleSubmit(e, newRecipe)}>
-            <input
+          <Form onSubmit={e => handleSubmit(e, newRecipe)}>
+            <Input
+              title="Recipe name"
               value={name}
               onChange={handleNameChange}
               placeholder="Recipe name"
             />
-            <input
+            <Input
+              title="Description"
               value={description}
               onChange={handleDescriptionChange}
               placeholder="Recipe description"
             />
-            <div>
+            <ListContainer>
               {ingredientFormHelper.map((el, idx) => (
-                <input
+                <Input
+                  title="Ingredients"
                   key={idx}
                   value={ingredients[idx]}
                   onChange={e => handleIngredientsChange(e, idx)}
                   placeholder="Enter an ingredient"
                 />
               ))}
-              <button onClick={e => addAnotherListItem(e, "ingredient")}>
-                Add another ingredient
-              </button>
-            </div>
-            <div>
+              <AddButton
+                title="add another ingredient"
+                onClick={e => addAnotherListItem(e, "ingredient")}
+              >
+                +
+              </AddButton>
+            </ListContainer>
+            <ListContainer>
               {stepsFormHelper.map((el, idx) => (
-                <input
+                <Input
+                  title="Step"
                   key={idx}
                   value={steps[idx]}
                   onChange={e => handleStepsChange(e, idx)}
                   placeholder="Enter a step"
                 />
               ))}
-              <button onClick={e => addAnotherListItem(e, "step")}>
-                Add another step
-              </button>
-            </div>
-            <button type="submit">Submit Recipe</button>
-          </form>
+              <AddButton
+                title="add another step"
+                onClick={e => addAnotherListItem(e, "step")}
+              >
+                +
+              </AddButton>
+            </ListContainer>
+            <SubmitButton title="Submit" type="submit">
+              Submit Recipe
+            </SubmitButton>
+          </Form>
           <p>{message}</p>
         </div>
       )}

@@ -21,7 +21,7 @@ const NewestRecipes = props => {
           );
 
         return (
-          <RecipeGridDisplay loadMore="none" recipes={data.newestRecipe} />
+          <RecipeGridDisplay offset="none" recipes={data.newestRecipe} />
         );
       }}
     </Query>

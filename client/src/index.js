@@ -11,6 +11,13 @@ import { onError } from "apollo-link-error";
 import { HashRouter } from "react-router-dom";
 import { VERIFY_USER } from "./graphql/mutations";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faSearch, faSpinner, faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
+
+import { faFacebook, faFacebookF } from "@fortawesome/free-brands-svg-icons";
+
+library.add(faSearch, faSpinner, faFacebookF, faFacebook, faAngleDoubleDown);
+
 // maps our objects to their ids ("_id")
 const cache = new InMemoryCache({
   dataIdFromObject: object => object._id || null

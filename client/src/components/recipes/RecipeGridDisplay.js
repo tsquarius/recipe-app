@@ -1,5 +1,18 @@
 import React from "react";
 import RecipeGridItem from "./RecipeGridItem";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
+
+const Loader = styled.aside`
+  display: ${props => props.offset === "none" ? 'none' : 'flex'};
+  justify-content: center;
+  align-content: center;
+`;
+
+const LoadButton = styled.button`
+  width: 40%
+`;
+
 
 const RecipeGridDisplay = props => {
   const { recipes, loadMore, offset } = props;
@@ -28,8 +41,8 @@ const RecipeGridDisplay = props => {
     //render grid
     indexGrid(),
     //"load more" button in the bottom
-    <aside key="loader" className={loadMore === "none" ? "hide" : "bottom-row"}>
-      <button
+    <Loader key="loader" offset={offset} loadMore className="bottom-row">
+      <LoadButton
         onClick={e => {
           e.preventDefault();
           let loadStyle = offset
@@ -38,9 +51,10 @@ const RecipeGridDisplay = props => {
           loadMore(loadStyle);
         }}
       >
-        load more
-      </button>
-    </aside>
+        Load More <br />
+        <FontAwesomeIcon title="load more" icon="angle-double-down" />
+      </LoadButton>
+    </Loader>
   ];
 };
 

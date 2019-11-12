@@ -1,9 +1,10 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Loading = props => {
   return (
     <div className="main-content-row">
-      <p>Loading...</p>
+      <FontAwesomeIcon icon="spinner" size="6x" className="fa-spin" />;
     </div>
   );
 };

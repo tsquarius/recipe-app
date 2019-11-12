@@ -6,7 +6,6 @@ const {
   GraphQLList,
   GraphQLNonNull,
   GraphQLInt,
-  GraphQLBoolean
 } = graphql;
 const mongoose = require("mongoose");
 

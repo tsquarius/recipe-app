@@ -1,6 +1,31 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
 import { REGISTER_USER } from "../../graphql/mutations";
+import styled from 'styled-components';
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 700px) {
+    width: 50%;
+    margin: auto;
+  }
+`;
+
+const Input = styled.input`
+  margin: auto;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  width: 80%;
+`;
+
+const Button = styled.button`
+  width: 40%;
+  margin: auto;
+`;
+
 
 const Register = props => {
   const [email, setEmail] = useState("");
@@ -42,32 +67,32 @@ const Register = props => {
       onCompleted={data => {
         const { token } = data.register;
         localStorage.setItem("auth-token", token);
-        props.history.push("/");
+        props.history.push("/recipes");
       }}
       update={(client, { data }) => updateCache(client, data)}
     >
       {register => (
-        <div className="main-content-row">
+        <div className="main-content-section">
           <h1>Register</h1>
-          <form onSubmit={e => handleSubmit(e, register)}>
-            <input
+          <Form onSubmit={e => handleSubmit(e, register)}>
+            <Input
               value={username}
               onChange={handleUsernameInput}
               placeholder="Username"
             />
-            <input
+            <Input
               value={email}
               onChange={handleEmailInput}
               placeholder="Email"
             />
-            <input
+            <Input
               value={password}
               type="password"
               onChange={handlePasswordInput}
               placeholder="password"
             />
-            <button type="submit">Register</button>
-          </form>
+            <Button type="submit">Register</Button>
+          </Form>
         </div>
       )}
     </Mutation>

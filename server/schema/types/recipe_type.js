@@ -27,9 +27,18 @@ const RecipeType = new GraphQLObjectType({
     ingredients: { type: new GraphQLList(GraphQLString) },
     steps: { type: new GraphQLList(GraphQLString) },
     viewCount: { type: GraphQLInt },
-    averageRate: {type: GraphQLFloat},
+    averageRate: { type: GraphQLFloat, resolve(parentValue) {
+      return Recipe.findById(parentValue._id).then(recipe => {
+        const reducer = (acc, cv) => {
+          return acc + cv;
+        };
+        const rates = recipe.rating.map(rater => rater.rating);
+        if (rates.length === 0 ) return 0;
+        return rates.reduce(reducer) / rates.length;
+      });
+    } },
     user: {
-      type: require('./user_type'),
+      type: require("./user_type"),
       resolve(parentValue) {
         return User.findById(parentValue.user._id);
       }

@@ -22,12 +22,14 @@ const RecipeGridItem = ({ recipe }) => {
           {recipe.name}{" "}
         </Link>
       </h3>
-      {/* <div className="img-card">
-              <img src={recipe.image} className="img" />
-            </div> */}
+      <div className="img-card">
+        <Link to={`/recipes/${recipe._id}`} onClick={handleViewCountIncrease}>
+          <img src={recipe.image} className="img" alt={recipe.name} />
+        </Link>
+      </div>
       <span className="author">Recipe by: {recipe.author}</span>
       <span className="rating">
-        Rated:
+        Rating: 
         {Math.round(recipe.averageRate * 100) / 100 === 0
           ? "unrated"
           : Math.round(recipe.averageRate * 100) / 100}

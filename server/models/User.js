@@ -32,4 +32,15 @@ const UserSchema = new Schema({
   ]
 });
 
+UserSchema.statics.isAuthor = async (userId, recipeId) => {
+  const Recipe = mongoose.model("recipes");
+  let hasAccess = false;
+  const recipe = await Recipe.findById(recipeId);
+
+  if (recipe.user._id.toString() === userId.toString()) {
+    hasAccess = true;
+  }
+  return { hasAccess };
+};
+
 module.exports = mongoose.model("users", UserSchema);

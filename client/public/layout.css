@@ -6,6 +6,10 @@
   background: #fff;
 }
 
+.hide {
+  display: none;
+}
+
 .main-head {
   border: 1px solid black;
 }

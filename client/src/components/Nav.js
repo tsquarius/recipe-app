@@ -11,7 +11,7 @@ const Nav = props => {
     e.preventDefault();
     localStorage.removeItem("auth-token");
     client.writeData({ data: { isLoggedIn: false } });
-    props.history.push("/");
+    window.location.reload();
   };
 
   return (
@@ -25,7 +25,8 @@ const Nav = props => {
             if (data.isLoggedIn) {
               return [
                 <button key="userNav" onClick={e => logoutUser(e, client)}>Logout</button>,
-                <SearchBar key="search" />
+                <SearchBar key="search" />,
+                <Link key="newRecipe" to="/recipes/new">Submit a recipe</Link>
               ];
             } else {
               return (

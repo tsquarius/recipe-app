@@ -54,7 +54,7 @@ export const VERIFY_USER = gql`
 
 export const INCREASE_VIEW_COUNT = gql`
   mutation IncreaseViewCount($id: ID!) {
-    increaseViewCout(_id: $id) {
+    increaseViewCount(_id: $id) {
       _id
       viewCount
     }
@@ -83,6 +83,43 @@ export const SUBMIT_NEW_RECIPE = gql`
       steps
       ingredients
       author
+    }
+  }
+`;
+
+export const UPDATE_RECIPE = gql`
+  mutation UpdateRecipe(
+    $id: ID!
+    $name: String
+    $description: String
+    $ingredients: [String]
+    $steps: [String]
+    $image: String
+  ) {
+    updateRecipe(
+      id: $id
+      name: $name
+      description: $description
+      ingredients: $ingredients
+      steps: $steps
+      image: $image
+    ) {
+      _id
+      name
+      description
+      image
+      steps
+      ingredients
+      author
+    }
+  }
+`;
+
+export const RATE_RECIPE = gql`
+  mutation RateRecipe($id: ID!, $rating: Num) {
+    rateRecipe(id: $id, rating: $rating) {
+      _id
+      averageRate
     }
   }
 `;

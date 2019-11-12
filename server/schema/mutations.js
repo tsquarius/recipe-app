@@ -5,7 +5,8 @@ const {
   GraphQLID,
   GraphQLList,
   GraphQLNonNull,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLBoolean
 } = graphql;
 const mongoose = require("mongoose");
 
@@ -31,37 +32,15 @@ const mutation = new GraphQLObjectType({
         steps: { type: new GraphQLList(GraphQLString) },
         image: { type: GraphQLString }
       },
-      async resolve(
-        _,
-        { name, description, ingredients, steps, image },
-        context
-      ) {
+      async resolve(_, data, context) {
         const currentUser = await AuthService.currentUser({
           token: context.token
         });
 
         // ensure the user is signed in before we move on
-
         if (!currentUser) return;
 
-        // create new recipe and then add it to the
-        //User's list of recipes submitted
-        return new Recipe({
-          name,
-          description,
-          author: currentUser.username,
-          ingredients,
-          steps,
-          image
-        })
-          .save()
-          .then(recipe => {
-            User.findById(currentUser._id).then(user => {
-              user.recipes.push(recipe);
-              user.save();
-            });
-            return recipe;
-          });
+        return Recipe.addNewRecipe(data, currentUser);
       }
     },
 
@@ -108,14 +87,21 @@ const mutation = new GraphQLObjectType({
       type: RecipeType,
       args: {
         id: { type: GraphQLNonNull(GraphQLID) },
-        user: { type: GraphQLString },
         rating: { type: GraphQLInt }
       },
-      resolve(_, { id, user, rating }) {
-        return Recipe.updateRating(id, user, rating);
+      async resolve(_, { id, rating }, context) {
+        const currentUser = await AuthService.currentUser({
+          token: context.token
+        });
+
+        if (!currentUser) return;
+
+        return Recipe.updateRating(id, currentUser._id, rating);
       }
     },
 
+
+    // for admin usage
     removeRating: {
       type: RecipeType,
       args: {

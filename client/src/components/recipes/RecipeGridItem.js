@@ -1,20 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/react-hooks";
+import { INCREASE_VIEW_COUNT } from "../../graphql/mutations";
 
+// data.increaseViewCount;
 const RecipeGridItem = ({ recipe }) => {
+  const [increaseViewCount] = useMutation(INCREASE_VIEW_COUNT);
+
+  const handleViewCountIncrease = e => {
+    increaseViewCount({
+      variables: {
+        id: recipe._id
+      }
+    });
+  };
+
   return (
     <section className="grid-col">
       <h3>
-        <Link to={`/recipes/${recipe._id}`}>{recipe.name} </Link>
+        <Link to={`/recipes/${recipe._id}`} onClick={handleViewCountIncrease}>
+          {recipe.name}{" "}
+        </Link>
       </h3>
       {/* <div className="img-card">
               <img src={recipe.image} className="img" />
             </div> */}
+      <span className="author">Recipe by: {recipe.author}</span>
       <span className="rating">
         Rated:
-        {Math.round(recipe.averageRate * 100) / 100}
+        {Math.round(recipe.averageRate * 100) / 100 === 0
+          ? "unrated"
+          : Math.round(recipe.averageRate * 100) / 100}
       </span>
-      <span className="author">Recipe by: {recipe.author}</span>
     </section>
   );
 };

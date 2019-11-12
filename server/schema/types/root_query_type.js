@@ -9,6 +9,8 @@ const {
   GraphQLString
 } = graphql;
 
+const AuthService = require('../../services/auth');
+
 const UserType = require("./user_type");
 const User = mongoose.model("users");
 
@@ -108,8 +110,24 @@ const RootQueryType = new GraphQLObjectType({
             .limit(limit ? limit : "");
         }
       }
-    }
+    },
 
+    //check if current user is author of content
+    isAuthor: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      async resolve(_, { id }, context) {
+        const currentUser = await AuthService.currentUser({
+          token: context.token
+        });
+
+        if (!currentUser) return;
+
+        return User.isAuthor(currentUser._id, id);
+      }
+    },
   })
 });
 

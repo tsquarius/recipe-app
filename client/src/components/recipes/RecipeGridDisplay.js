@@ -28,11 +28,13 @@ const RecipeGridDisplay = props => {
     //render grid
     indexGrid(),
     //"load more" button in the bottom
-    <aside key="loader" className="bottom-row">
+    <aside key="loader" className={loadMore === "none" ? "hide" : "bottom-row"}>
       <button
         onClick={e => {
           e.preventDefault();
-          let loadStyle = offset ? recipes.length : recipes[recipes.length - 1]._id;
+          let loadStyle = offset
+            ? recipes.length
+            : recipes[recipes.length - 1]._id;
           loadMore(loadStyle);
         }}
       >

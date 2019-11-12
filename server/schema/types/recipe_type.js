@@ -11,6 +11,7 @@ const {
 
 const Recipe = mongoose.model("recipes");
 const RatingType = require("./rating_type");
+const User = mongoose.model("users");
 
 const RecipeType = new GraphQLObjectType({
   name: "RecipeType",
@@ -26,7 +27,13 @@ const RecipeType = new GraphQLObjectType({
     ingredients: { type: new GraphQLList(GraphQLString) },
     steps: { type: new GraphQLList(GraphQLString) },
     viewCount: { type: GraphQLInt },
-    averageRate: {type: GraphQLFloat}
+    averageRate: {type: GraphQLFloat},
+    user: {
+      type: require('./user_type'),
+      resolve(parentValue) {
+        return User.findById(parentValue.user._id);
+      }
+    }
   })
 });
 

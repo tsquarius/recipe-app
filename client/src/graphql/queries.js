@@ -63,3 +63,26 @@ export const FETCH_RECIPE = gql`
     }
   }
 `;
+
+export const IS_AUTHOR = gql`
+  query IsAuthor($id: ID!) {
+    isAuthor(id: $id) {
+      hasAccess
+    }
+  }
+`;
+
+export const NEWEST_RECIPE = gql`
+  query NewestRecipe {
+    newestRecipe {
+      _id
+      name
+      image
+      averageRate
+      author
+      ingredients
+      steps
+      viewCount
+    }
+  }
+`;

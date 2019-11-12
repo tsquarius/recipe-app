@@ -1,5 +1,5 @@
 import React from "react";
-import keys from "../../config/secret";
+import keys from "../../config/keys";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { Mutation } from "react-apollo";
 import { FACEBOOK_AUTH } from "../../graphql/mutations";

@@ -25,7 +25,8 @@ const UserType = new GraphQLObjectType({
         .populate("recipes")
         .then(user => user.recipes);
       }
-    }
+    },
+    hasAccess: { type: GraphQLBoolean }
   })
 });
 

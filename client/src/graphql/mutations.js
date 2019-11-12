@@ -116,7 +116,7 @@ export const UPDATE_RECIPE = gql`
 `;
 
 export const RATE_RECIPE = gql`
-  mutation RateRecipe($id: ID!, $rating: Num) {
+  mutation RateRecipe($id: ID!, $rating: Int) {
     rateRecipe(id: $id, rating: $rating) {
       _id
       averageRate

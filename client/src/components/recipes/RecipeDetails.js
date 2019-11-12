@@ -1,7 +1,9 @@
 import React from "react";
 import { Query } from "react-apollo";
-import { FETCH_RECIPE, IS_AUTHOR } from "../../graphql/queries";
+import { FETCH_RECIPE } from "../../graphql/queries";
 import ImageUpload from "./RecipeImageUpload";
+import RateRecipe from "./RateRecipe";
+import { Loading, ErrorMsg } from "../utils/HelperComponents";
 
 const RecipeDetails = props => {
   const recipeId = props.match.params.recipeId;
@@ -14,18 +16,8 @@ const RecipeDetails = props => {
   return (
     <Query query={FETCH_RECIPE} variables={{ id: recipeId }}>
       {({ loading, error, data }) => {
-        if (loading)
-          return (
-            <div className="main-content-row">
-              <p>Loading...</p>
-            </div>
-          );
-        if (error)
-          return (
-            <div className="main-content-row">
-              <p>Unexpected error has occurred</p>
-            </div>
-          );
+        if (loading) return <Loading />;
+        if (error) return <ErrorMsg />;
         if (!data.recipe)
           return (
             <div className="main-content-row">
@@ -42,30 +34,16 @@ const RecipeDetails = props => {
               style={{ width: "300px", height: "300px" }}
             />
             <ul>
-              <h4>Ingredients</h4>
+              <h4 id="ingredients">Ingredients</h4>
               {generateListItems(data.recipe.ingredients)}
             </ul>
             <ol>
-              <h4>Cooking Instructions</h4>
+              <h4 id="instructions">Cooking Instructions</h4>
               {generateListItems(data.recipe.steps)}
             </ol>
           </div>,
-          <Query key="access" query={IS_AUTHOR} variables={{ id: recipeId }}>
-            {({ loading, error, data }) => {
-              if (loading)
-                return (
-                  <div className="main-content-row">
-                    <p>Loading...</p>
-                  </div>
-                );
-              if (error) return null;
-              if (data.isAuthor.hasAccess) {
-                return <ImageUpload key="imageUpload" recipeId={recipeId} />;
-              } else {
-                return <p>"" {console.log(data.isAuthor)}</p>;
-              }
-            }}
-          </Query>
+          <ImageUpload key="image" recipeId={recipeId} />,
+          <RateRecipe key="rating" recipeId={recipeId} />
         ];
       }}
     </Query>

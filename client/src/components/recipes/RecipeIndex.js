@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import { FETCH_RECIPES_PAGINATED } from "../../graphql/queries";
 import RecipeGridDisplay from "./RecipeGridDisplay";
 import NewestRecipes from './NewestRecipesIndex';
+import { Loading, ErrorMsg } from "../utils/HelperComponents";
 
 const Scroll = props => {
   return (
@@ -12,9 +13,8 @@ const Scroll = props => {
       // fetchPolicy="cache-and-network"
     >
       {({ loading, error, data, fetchMore }) => {
-        if (loading) return <p>Loading...</p>;
-        if (error) return <p>Error occurred...</p>;
-
+        if (loading) return <Loading />;
+        if (error) return <ErrorMsg />;
         return [
           <div key="header1" className="main-content-row">
             <h2>Latest submissions</h2>

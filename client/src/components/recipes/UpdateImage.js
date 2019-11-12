@@ -11,7 +11,7 @@ const UpdateImage = props => {
     submitImageUpdate();
   });
 
-  const [updateRecipe, { data }] = useMutation(UPDATE_RECIPE, {
+  const [updateRecipe] = useMutation(UPDATE_RECIPE, {
     update(cache, {data}) {
       let recipe;
       try {

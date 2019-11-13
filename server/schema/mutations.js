@@ -5,7 +5,7 @@ const {
   GraphQLID,
   GraphQLList,
   GraphQLNonNull,
-  GraphQLInt,
+  GraphQLInt
 } = graphql;
 const mongoose = require("mongoose");
 
@@ -53,7 +53,17 @@ const mutation = new GraphQLObjectType({
         steps: { type: new GraphQLList(GraphQLString) },
         image: { type: GraphQLString }
       },
-      resolve(_, { id, name, description, ingredients, steps, image }) {
+      async resolve(
+        _,
+        { id, name, description, ingredients, steps, image },
+        context
+      ) {
+        const currentUser = await AuthService.currentUser({
+          token: context.token
+        });
+
+        if (!currentUser) return;
+
         const updateObj = {};
         if (name) updateObj.name = name;
         if (description) updateObj.description = description;
@@ -98,7 +108,6 @@ const mutation = new GraphQLObjectType({
         return Recipe.updateRating(id, currentUser._id, rating);
       }
     },
-
 
     // for admin usage
     removeRating: {

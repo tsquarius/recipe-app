@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import { INCREASE_VIEW_COUNT } from "../../graphql/mutations";
 
-// data.increaseViewCount;
 const RecipeGridItem = ({ recipe }) => {
   const [increaseViewCount] = useMutation(INCREASE_VIEW_COUNT);
 

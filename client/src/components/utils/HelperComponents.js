@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const Loading = props => {
   return (
     <div className="main-content-row">
-      <FontAwesomeIcon icon="spinner" size="6x" className="fa-spin" />;
+      <FontAwesomeIcon icon="spinner" size="6x" className="fa-spin" />
     </div>
   );
 };

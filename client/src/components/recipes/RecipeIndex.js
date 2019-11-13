@@ -25,12 +25,12 @@ const Scroll = props => {
           <RecipeGridDisplay
             key="index"
             recipes={data.recipesPaginated}
-            loadMore={newCursor =>
+            loadMore={newOffset =>
               fetchMore({
                 query: FETCH_RECIPES_PAGINATED,
                 variables: {
                   limit: 8,
-                  cursor: newCursor
+                  offset: newOffset
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
                   const prevRecipes = prev.recipesPaginated;

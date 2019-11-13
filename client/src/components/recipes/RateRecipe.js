@@ -6,8 +6,7 @@ import { Loading, ErrorMsg } from "../utils/HelperComponents";
 import styled from 'styled-components';
 
 const RatingContainer = styled.div`
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+  margin-top: 5px;
 `;
 
 const RateRecipe = props => {
@@ -60,7 +59,7 @@ const RateRecipe = props => {
             >
               {(rateRecipe, { data }) => {
                 return (
-                  <RatingContainer className="main-content-section">
+                  <RatingContainer>
                     <form onSubmit={e => submitRating(e, rateRecipe)}>
                       <select value={rating} onChange={changeRating}>
                         {rateValueOptions()}

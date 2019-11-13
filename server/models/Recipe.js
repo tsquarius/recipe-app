@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const RecipeSchema = new Schema({
-  scrapeId: {
-    type: Number,
-    required: false
-  },
   name: {
     type: String,
     required: true
@@ -14,13 +10,11 @@ const RecipeSchema = new Schema({
     type: String,
     required: true
   },
-  url: {
-    type: String,
-    required: false
-  },
   image: {
     type: String,
-    required: false
+    required: false,
+    default:
+      "https://firebasestorage.googleapis.com/v0/b/recipeapp-258123.appspot.com/o/Selection_024%20(1).png?alt=media&token=01b874ec-9a45-4b94-b3b1-5580e3fb99c5"
   },
   rating: [
     {

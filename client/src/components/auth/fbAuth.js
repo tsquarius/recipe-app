@@ -5,7 +5,7 @@ import { Mutation } from "react-apollo";
 import { FACEBOOK_AUTH } from "../../graphql/mutations";
 import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const FacebookButton = styled.button`
   background: #3b5998;

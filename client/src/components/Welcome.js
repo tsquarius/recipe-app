@@ -26,7 +26,6 @@ const DivVertical = styled.div`
   }
 `;
 
-
 const SubHeaders = styled.h2`
   font-weight: 400;
   font-size: 36px;
@@ -119,7 +118,7 @@ const Welcome = props => {
       <SubHeaders>Why was Forage created?</SubHeaders>
       <Paragraph>
         Forage was created as a personal project to help develop my abilities
-        with the MERN stack and GraphQL/Apollo. <br />
+        with the MERN stack and GraphQL/Apollo. <br /> <br />
         <button>See source on Github</button>
       </Paragraph>
     </DivVertical>,

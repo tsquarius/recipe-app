@@ -9,7 +9,7 @@ const {
   GraphQLString
 } = graphql;
 
-const AuthService = require('../../services/auth');
+const AuthService = require("../../services/auth");
 
 const UserType = require("./user_type");
 const User = mongoose.model("users");
@@ -53,22 +53,22 @@ const RootQueryType = new GraphQLObjectType({
     newestRecipe: {
       type: new GraphQLList(RecipeType),
       resolve(_) {
-        return Recipe.find({}).sort({date: -1}).limit(4);
+        return Recipe.find({})
+          .sort({ _id: -1 })
+          .limit(4);
       }
     },
 
     recipesPaginated: {
       type: new GraphQLList(RecipeType),
       args: {
-        cursor: { type: GraphQLID },
-        limit: { type: GraphQLInt }
+        limit: { type: GraphQLInt },
+        offset: { type: GraphQLInt }
       },
-      resolve(_, { cursor, limit }) {
-        if (!cursor) {
-          return Recipe.find().limit(limit);
-        } else {
-          return Recipe.find({ _id: { $gt: cursor } }).limit(limit);
-        }
+      resolve(_, { limit, offset }) {
+        return Recipe.find()
+          .skip(offset ? offset : "")
+          .limit(limit);
       }
     },
 
@@ -127,7 +127,7 @@ const RootQueryType = new GraphQLObjectType({
 
         return User.isAuthor(currentUser._id, id);
       }
-    },
+    }
   })
 });
 

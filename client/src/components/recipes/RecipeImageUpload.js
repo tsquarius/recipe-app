@@ -50,8 +50,10 @@ const ImageUpload = props => {
         if (error) return null;
 
         if (data.isAuthor.hasAccess) {
+
           return (
             <div className="main-content-section">
+              <h3>Upload/Edit Image</h3>
               <form onSubmit={handleImageUpload}>
                 <input type="file" onChange={handleAttachImage} />
                 <button type="submit">Upload</button>

@@ -13,7 +13,6 @@ const LoadButton = styled.button`
   width: 40%
 `;
 
-
 const RecipeGridDisplay = props => {
   const { recipes, loadMore, offset } = props;
 
@@ -45,10 +44,8 @@ const RecipeGridDisplay = props => {
       <LoadButton
         onClick={e => {
           e.preventDefault();
-          let loadStyle = offset
-            ? recipes.length
-            : recipes[recipes.length - 1]._id;
-          loadMore(loadStyle);
+          let newOffset = recipes.length
+          loadMore(newOffset);
         }}
       >
         Load More <br />

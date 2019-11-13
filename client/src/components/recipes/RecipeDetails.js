@@ -13,6 +13,11 @@ const SubText = styled.p`
 const List = styled.ul`
   padding: 20px;
   text-align: left;
+  li {
+    padding: 0 4px;
+    margin-bottom: 1px;
+  }
+
   li:nth-of-type(odd) {
     background: rgba(0, 0, 0, 0.1);
   }
@@ -54,6 +59,8 @@ const RecipeDetails = props => {
                 className="img"
                 style={{ width: "100%", height: "300px" }}
               />
+
+              <RateRecipe key="rating" recipeId={recipeId} />
             </header>
             <List key="ingredients" className="details-col">
               <h3 id="ingredients">Ingredients</h3>
@@ -64,8 +71,7 @@ const RecipeDetails = props => {
               {generateListItems(data.recipe.steps)}
             </List>
           </div>,
-          <ImageUpload key="image" recipeId={recipeId} />,
-          <RateRecipe key="rating" recipeId={recipeId} />
+          <ImageUpload key="image" recipeId={recipeId} />
         ];
       }}
     </Query>

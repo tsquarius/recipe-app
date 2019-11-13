@@ -22,8 +22,8 @@ export const FETCH_RECIPES = gql`
 `;
 
 export const FETCH_RECIPES_PAGINATED = gql`
-  query fetchRecipesPaginated($cursor: ID, $limit: Int) {
-    recipesPaginated(cursor: $cursor, limit: $limit) {
+  query fetchRecipesPaginated($offset: Int, $limit: Int) {
+    recipesPaginated(offset: $offset, limit: $limit) {
       _id
       name
       image

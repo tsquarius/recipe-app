@@ -23,11 +23,17 @@ const cache = new InMemoryCache({
   dataIdFromObject: object => object._id || null
 });
 
-// allows us to carry info between our two servers (3000 & 5000)
+let uri;
+if (process.env.NODE_ENV === "production") {
+  uri = `/graphql`;
+} else {
+  uri = "http://localhost:5000/graphql";
+}
+
 const httpLink = createHttpLink({
-  uri: "http://localhost:5000/graphql",
+  uri: uri,
   headers: {
-    authorization: localStorage.getItem("auth-token")
+    authorization: localStorage.getItem("auth-token") || ""
   }
 });
 
@@ -37,8 +43,8 @@ const errorLink = onError(({ graphQLErrors }) => {
 });
 
 const client = new ApolloClient({
-  link: ApolloLink.from([errorLink, httpLink]), //shows how to fetch data using our crreateHttp
-  cache, // pass in the cache from above
+  link: ApolloLink.from([errorLink, httpLink]), 
+  cache, 
   onError: ({ networkError, graphQLErrors }) => {
     console.log("graphQLErrors", graphQLErrors);
     console.log("networkError", networkError);

@@ -1,13 +1,12 @@
 import * as firebase from "firebase/app";
 import "firebase/storage";
-import prod from './firebase_prod';
-import dev from './firebase_dev';
+
 
 let apiKey;
 if (process.env.NODE_ENV === "production") {
-  apiKey = prod.apiKey;
+  apiKey = require("./firebase_prod").apiKey;
 } else {
-  apiKey = dev.apiKey;
+  apiKey = require("./firebase_dev").apiKey;
 }
 
 

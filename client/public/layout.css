@@ -1,6 +1,6 @@
 /* #ffc385
 #daffc0 */
-  /* background: #c1c0ffea; */
+/* background: #c1c0ffea; */
 #app {
   font-family: Arial, Helvetica, sans-serif;
   display: grid;
@@ -125,7 +125,7 @@ button:hover,
 }
 
 .grid-col h3 {
-  height: 20%;
+  height: 30%;
   margin: 0;
 }
 
@@ -266,5 +266,9 @@ button:hover,
 
   .grid-col {
     height: 300px;
+  }
+
+  .grid-col h3 {
+    height: 20%;
   }
 }

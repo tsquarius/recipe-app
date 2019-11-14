@@ -1,4 +1,5 @@
 /node_modules
-/config
+/config/keys.js
+/config/keys_dev.js
 /client/node_modules
-/client/src/config
+/client/src/config/firebase_dev.js

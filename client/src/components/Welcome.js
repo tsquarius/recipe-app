@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { HashLink as Link } from "react-router-hash-link";
+import { HashLink } from "react-router-hash-link";
+import { Link } from "react-router-dom";
 
 const DivRow = styled.div`
   color: gray;
@@ -34,7 +35,7 @@ const SubHeaders = styled.h2`
 
 const NavButton = styled.div`
   color: gray;
-  width: 33%;
+  width: 25%;
   a {
     width: 100%;
   }
@@ -66,23 +67,33 @@ const HowImg = styled.img`
   margin-top: 10px;
 `;
 
+const Github = styled.a`
+  font-weight: bold;
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
 const Welcome = props => {
   return [
     <nav id="Top" key="nav" className="welcome-nav">
       <NavButton>
-        <Link smooth to="/#Intro">
+        <HashLink smooth to="/#Intro">
           What is Forage?
-        </Link>
+        </HashLink>
       </NavButton>
       <NavButton>
-        <Link smooth to="#HowTo">
+        <HashLink smooth to="#HowTo">
           How to use Forage
-        </Link>
+        </HashLink>
       </NavButton>
       <NavButton>
-        <Link smooth to="/#About">
+        <HashLink smooth to="/#About">
           About
-        </Link>
+        </HashLink>
+      </NavButton>
+      <NavButton>
+        <Link to="/recipes">Get Started</Link>
       </NavButton>
     </nav>,
 
@@ -118,14 +129,30 @@ const Welcome = props => {
       <SubHeaders>Why was Forage created?</SubHeaders>
       <Paragraph>
         Forage was created as a personal project to help develop my abilities
-        with the MERN stack and GraphQL/Apollo. <br /> <br />
-        <button>See source on Github</button>
+        with the MERN stack and GraphQL/Apollo. <br />
+        <Github href="https://github.com/tsquarius/recipe-app" target="_blank">
+          See source on Github
+        </Github>
       </Paragraph>
+
+      <Link
+        smooth
+        to="/recipes"
+        className="button"
+        style={{
+          margin: "auto",
+          "font-size": "20px",
+          "margin-top": "10px",
+          "margin-bottom": "10px"
+        }}
+      >
+        Get Started
+      </Link>
     </DivVertical>,
     <div key="scroll" className="bottom-row">
-      <Link smooth to="/#Top" className="button" style={{ margin: "auto" }}>
+      <HashLink smooth to="/#Top" className="button" style={{ margin: "auto" }}>
         Back to Top
-      </Link>
+      </HashLink>
     </div>
   ];
 };

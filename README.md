@@ -4,7 +4,7 @@
 > a recipe finder app based on ingredients
 
 
-Link to [live site](https://forage.toantra.io)
+Link to [live site](https://forage.toantran.io)
 
 ## Overview
 
